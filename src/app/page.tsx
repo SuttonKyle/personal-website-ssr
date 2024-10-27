@@ -1,101 +1,98 @@
-import Image from "next/image";
+"use client";
+
+import { useIsomorphicLayoutEffect } from 'react-spring';
+import { useSpring, animated, useTransition } from '@react-spring/web'
+import { useState } from 'react';
+import { flushSync } from 'react-dom';
+import Link from 'next/link';
+import Image from 'next/image';
+
+const titles = ["frontend engineer", "full stack engineer", "climber", "runner", "amateur baker"]
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [iAmARendered, setIAmARendered] = useState(false);
+  const [slide, setSlide] = useState(0);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const springs = useSpring(
+    !iAmARendered ? {
+      y: 30,
+      opacity: 0
+    } : {
+      y: 0,
+      opacity: 1,
+      delay: 500,
+      config: {
+        friction: 14,
+        tension: 40,
+        bounce: 0
+      }
+    });
+
+  const [transitions, api] = useTransition(slide, () => ({
+    from: { opacity: 0, y: 30 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: -30 },
+  }))
+
+  useIsomorphicLayoutEffect(() => {
+    setIAmARendered(true);
+    const interval = setInterval(() => flushSync(() => setSlide(slide => (slide + 1) % titles.length)), 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useIsomorphicLayoutEffect(() => {
+    api.start()
+  }, [slide]);
+
+  return (
+    <div className="flex flex-col justify-start h-full md:justify-center mb-4 md:mb-0">
+      <div className="flex flex-col md:flex-row h-max xl:mr-12 xl:ml-12">
+        <div className="relative h-80 mb-4 md:mb-0 md:h-full w-full">
+          <Image
+            src="https://s3.amazonaws.com/kylesutton-personal-website-photos/logos%2Fheadshot.JPG"
+            alt="headshot"
+            width={0}
+            height={0}
+            sizes={"50vw"}
+            fill
+            objectFit="contain"
+            className="object-center md:object-left-center"
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="flex flex-col md:ml-4">
+          <div className="text-5xl font-bold">Hi, I&apos;m Kyle!</div>
+          <animated.div className="mt-4" style={springs}>
+            <div className="mb-4 text-2xl font-bold">
+              I am {/^[aeiou]/.test(titles[slide].toLowerCase()) ? "an" : "a"} <div className="inline-block h-6">
+                <div className="relative">
+                  {transitions((style, idx) => <animated.div style={style} className="absolute w-max">{titles[idx]}</animated.div>)}
+                </div>
+              </div>
+            </div>
+            <div className="mb-4">
+              I have 3+ years professional software engineering experience and a passion for writing clean, functional code.
+              I am first and foremost a frontend engineer specializing in TypeScript and React, but I have done my fair share of full stack engineering with Node.js, Express,
+              MongoDB, SQL, and a variety of other technologies, and consider myself somewhat of a jack of all trades. I have a special place in my heart for functional programming, and I believe TypeScript
+              can be beautiful if treated with the care it deserves.
+              <div className="mt-2">
+                <Link className="font-semibold" href="/career">See my career →</Link>
+              </div>
+            </div>
+            <div className="mb-4">
+              When I&apos;m not writing code, I spend my weekends in the climbing gym hanging off plastic or better yet, outside hanging off rock or ice.
+              I run almost every day, and my second favorite place to be besides outside is in the kitchen.
+              <div className="mt-2">
+                <Link className="font-semibold" href="/gallery">See my hobbies →</Link>
+              </div>
+            </div>
+            <div>Want to build something together? Let's connect!
+              <div className="mt-2">
+                <Link className="font-semibold" href="/links">Get in touch →</Link>
+              </div>
+            </div>
+          </animated.div>
+        </div>
+      </div>
     </div>
   );
 }

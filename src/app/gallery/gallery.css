@@ -1,0 +1,8 @@
+.viewer-background {
+  color: #ededed;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.photo-button {
+  aspect-ratio: 4/3;
+}

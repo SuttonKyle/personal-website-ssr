@@ -1,0 +1,11 @@
+.slideshow {
+  min-height: 30rem;
+  background-color: var(--slideshow-background);
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+.job-description {
+  background-color: var(--slideshow-background-transparent);
+  box-shadow: 0 0 1rem 1rem var(--slideshow-background-transparent);
+}

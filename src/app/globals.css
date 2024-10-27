@@ -3,15 +3,43 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: rgb(255, 255, 255);
+  --background-transparent: rgba(255, 255, 255, 0.7);
   --foreground: #171717;
+  --accent: rgb(79 70 229);
+  --slideshow-background: rgb(165, 180, 252);
+  --slideshow-background-transparent: rgba(165, 180, 252, 0.7);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: rgb(17, 19, 46);
+    --background-transparent: rgba(17, 19, 46, 0.7);
     --foreground: #ededed;
+    --accent: rgb(165 180 252);
+    --slideshow-background: rgb(9, 10, 25);
+    --slideshow-background-transparent: rgba(9, 10, 25, 0.7);
   }
+}
+
+.text-color {
+  color: var(--foreground);
+}
+
+.text-color-bg {
+  background-color: var(--foreground);
+}
+
+.accent-color {
+  color: var(--accent);
+}
+
+.accent-color-bg {
+  background-color: var(--accent);
+}
+
+.background-color-bg {
+  background-color: var(--background)
 }
 
 body {
@@ -20,8 +48,62 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 1rem;
+}
+
+.contact-link {
+  margin-bottom: 1rem;
+}
+
+.contact-link:hover {
+  color: var(--accent);
+}
+
+.hamburger:hover {
+  color: var(--accent);
+}
+
+.hamburger-bar {
+  background-color: var(--foreground);
+}
+
+.hamburger:hover .hamburger-bar {
+  background-color: var(--accent);
+}
+
+.toolbar-background {
+  background-color: var(--background-transparent);
+}
+
+.loading {
+  border: 0.5rem solid var(--foreground);
+  border-top: 0.5rem solid var(--accent);
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
