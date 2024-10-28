@@ -3,6 +3,7 @@
 import { Loader } from "../components/Loader";
 import { viewAlbum } from "@/util/s3";
 import * as O from "effect/Option";
+import { Effect } from "effect";
 import { useStableO } from "effect-ts-react-stable-hooks";
 import Image from "next/image";
 import { useState } from "react";
@@ -43,7 +44,7 @@ const Viewer = (props: ViewerProps & { closeModal: () => void }) => {
             src={props.photos[index]}
             alt={props.photos[index]}
             fill
-            objectFit="contain"
+            className="object-contain"
         />
         {index > 0 && <button className="absolute opacity-0 hover:opacity-100 flex left-0 top-0 bottom-0 flex-col justify-center items-center w-16 text-2xl" onClick={viewPrev}>
             <div className="w-8 h-8 rounded-full flex justify-center items-center viewer-background pr-1">❮</div>
@@ -74,7 +75,7 @@ const GalleryPage = () => {
         {albums.map(a =>
             <div className="mb-4 mt-4" key={a}>
                 <SubHeader className="mb-2">{getAlbumName(a)}</SubHeader>
-                <Loader key={a} request={viewAlbum(a)}>
+                <Loader key={a} requestKey={a} request={viewAlbum(a)}>
                     {(photos) => <div className="grid gap-2" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(16rem, 1fr))" }}>
                         {photos.map((p, idx) => <button
                             className="relative photo-button"
@@ -88,10 +89,9 @@ const GalleryPage = () => {
                                 src={p}
                                 fill
                                 alt={p}
-                                sizes='99vw'
-                                width={0}
-                                height={0}
-                                style={{ objectFit: "cover" }}
+                                sizes="99vw"
+                                className="object-cover"
+                                priority
                             />
                         </button>)}
                     </div>}

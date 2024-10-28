@@ -2,26 +2,18 @@
 
 import { ReactElement } from "react";
 import * as O from "effect/Option";
-import { useIsomorphicLayoutEffect } from "react-spring";
-import { useStableO } from "effect-ts-react-stable-hooks";
+import useSWR from "swr";
+import { Effect } from "effect";
 
-type Request<A> = (onError: (err: string) => void, onSuccess: (data: A) => void) => void
-
-export const Loader = <A,>(props: { request: Request<A>, children: (data: A) => ReactElement }) => {
-    const [err, setErr] = useStableO<string>(O.none());
-    const [data, setData] = useStableO<A>(O.none());
-    useIsomorphicLayoutEffect(
-        () => props.request(e => setErr(O.some(e)), d => setData(O.some(d))),
-        []
-    );
-    const isLoading = O.isNone(err) && O.isNone(data);
+export const Loader = <A,>(props: { request: Effect.Effect<A, string>, requestKey: string, children: (data: A) => ReactElement }) => {
+    const { isLoading, error, data } = useSWR(props.requestKey, () => Effect.runPromise(props.request));
     return <div>
         {isLoading && <div className="w-full flex justify-center h-48 items-center"><div className="loading" /></div>}
-        {O.match(err, {
+        {O.match(O.fromNullable(error), {
             onNone: () => <></>,
             onSome: err => <div>{err}</div>
         })}
-        {O.match(data, {
+        {O.match(O.fromNullable(data), {
             onNone: () => <></>,
             onSome: props.children,
         })}

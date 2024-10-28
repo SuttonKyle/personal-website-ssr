@@ -115,8 +115,7 @@ const Job = (props: { job: Job }) => <div>
                 sizes={"50vw"}
                 width={0}
                 height={0}
-                objectFit="contain"
-                objectPosition="left"
+                className="object-contain object-left"
             />
         </div>
     })}
@@ -176,8 +175,7 @@ const JobMobile = (props: { job: Job }) => <div className="relative ml-4 mr-4 mb
                             alt={`Logo for ${props.job.name}`}
                             sizes={"100vw"}
                             fill
-                            objectPosition="top"
-                            objectFit="contain"
+                            className="object-contain object-top"
                         />
                     </div>
                 </>

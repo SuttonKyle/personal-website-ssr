@@ -55,8 +55,7 @@ export default function Home() {
             height={0}
             sizes={"50vw"}
             fill
-            objectFit="contain"
-            className="object-center md:object-left-center"
+            className="object-contain object-center md:object-left-center"
           />
         </div>
         <div className="flex flex-col md:ml-4">
@@ -85,7 +84,7 @@ export default function Home() {
                 <Link className="font-semibold" href="/gallery">See my hobbies →</Link>
               </div>
             </div>
-            <div>Want to build something together? Let's connect!
+            <div>Want to build something together? Let&apos;s connect!
               <div className="mt-2">
                 <Link className="font-semibold" href="/links">Get in touch →</Link>
               </div>
