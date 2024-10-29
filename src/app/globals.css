@@ -4,7 +4,7 @@
 
 :root {
   --background: rgb(255, 255, 255);
-  --background-transparent: rgba(255, 255, 255, 0.7);
+  --background-transparent: rgba(255, 255, 255, 0.9);
   --foreground: #171717;
   --accent: rgb(79 70 229);
   --slideshow-background: rgb(165, 180, 252);
@@ -14,7 +14,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: rgb(17, 19, 46);
-    --background-transparent: rgba(17, 19, 46, 0.7);
+    --background-transparent: rgba(17, 19, 46, 0.8);
     --foreground: #ededed;
     --accent: rgb(165 180 252);
     --slideshow-background: rgb(9, 10, 25);
