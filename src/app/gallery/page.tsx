@@ -3,7 +3,6 @@
 import { Loader } from "../components/Loader";
 import { viewAlbum } from "@/util/s3";
 import * as O from "effect/Option";
-import { Effect } from "effect";
 import { useStableO } from "effect-ts-react-stable-hooks";
 import Image from "next/image";
 import { useState } from "react";
