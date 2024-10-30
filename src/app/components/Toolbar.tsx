@@ -20,7 +20,8 @@ const toolbarLinks: ToolbarLink[] = [
 
 const ToolbarLink = (props: ToolbarLink & { variant: "mobile" | "web" }) => {
   const pathName = usePathname();
-  return <div className={`${props.variant === "mobile" ? "pl-4 pb-4" : "p-4"} font-semibold ${props.href === pathName ? "accent-color" : ""}`}>
+  const isCurrentUrl = props.href === "/" ? pathName === props.href : pathName.startsWith(props.href);
+  return <div className={`${props.variant === "mobile" ? "pl-4 pb-4" : "p-4"} font-semibold ${isCurrentUrl ? "accent-color" : ""}`}>
     <Link href={props.href}>{props.text}</Link>
   </div>
 }
